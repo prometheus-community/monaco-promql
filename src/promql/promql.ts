@@ -43,19 +43,166 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
+const keywords = [
+	'abstract',
+	'activate',
+	'and',
+	'any',
+	'array',
+	'as',
+	'asc',
+	'assert',
+	'autonomous',
+	'begin',
+	'bigdecimal',
+	'blob',
+	'boolean',
+	'break',
+	'bulk',
+	'by',
+	'case',
+	'cast',
+	'catch',
+	'char',
+	'class',
+	'collect',
+	'commit',
+	'const',
+	'continue',
+	'convertcurrency',
+	'decimal',
+	'default',
+	'delete',
+	'desc',
+	'do',
+	'double',
+	'else',
+	'end',
+	'enum',
+	'exception',
+	'exit',
+	'export',
+	'extends',
+	'false',
+	'final',
+	'finally',
+	'float',
+	'for',
+	'from',
+	'future',
+	'get',
+	'global',
+	'goto',
+	'group',
+	'having',
+	'hint',
+	'if',
+	'implements',
+	'import',
+	'in',
+	'inner',
+	'insert',
+	'instanceof',
+	'int',
+	'interface',
+	'into',
+	'join',
+	'last_90_days',
+	'last_month',
+	'last_n_days',
+	'last_week',
+	'like',
+	'limit',
+	'list',
+	'long',
+	'loop',
+	'map',
+	'merge',
+	'native',
+	'new',
+	'next_90_days',
+	'next_month',
+	'next_n_days',
+	'next_week',
+	'not',
+	'null',
+	'nulls',
+	'number',
+	'object',
+	'of',
+	'on',
+	'or',
+	'outer',
+	'override',
+	'package',
+	'parallel',
+	'pragma',
+	'private',
+	'protected',
+	'public',
+	'retrieve',
+	'return',
+	'returning',
+	'rollback',
+	'savepoint',
+	'search',
+	'select',
+	'set',
+	'short',
+	'sort',
+	'stat',
+	'static',
+	'strictfp',
+	'super',
+	'switch',
+	'synchronized',
+	'system',
+	'testmethod',
+	'then',
+	'this',
+	'this_month',
+	'this_week',
+	'throw',
+	'throws',
+	'today',
+	'tolabel',
+	'tomorrow',
+	'transaction',
+	'transient',
+	'trigger',
+	'true',
+	'try',
+	'type',
+	'undelete',
+	'update',
+	'upsert',
+	'using',
+	'virtual',
+	'void',
+	'volatile',
+	'webservice',
+	'when',
+	'where',
+	'while',
+	'yesterday'
+];
+
+// create case variations of the keywords - apex is case insensitive, but we can't make the highlighter case insensitive
+// because we use a heuristic to assume that identifiers starting with an upper case letter are types.
+const uppercaseFirstLetter = (lowercase) => lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
+
+let keywordsWithCaseVariations = [];
+keywords.forEach(lowercase => {
+	keywordsWithCaseVariations.push(lowercase);
+	keywordsWithCaseVariations.push(lowercase.toUpperCase());
+	keywordsWithCaseVariations.push(uppercaseFirstLetter(lowercase));
+})
+
 export const language = <ILanguage>{
 	defaultToken: '',
-	tokenPostfix: '.java',
+	tokenPostfix: '.apex',
 
-	keywords: [
-		'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
-		'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
-		'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
-		'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof', 'return',
-		'transient', 'catch', 'extends', 'int', 'short', 'try', 'char', 'final',
-		'interface', 'static', 'void', 'class', 'finally', 'long', 'strictfp',
-		'volatile', 'const', 'float', 'native', 'super', 'while', 'true', 'false'
-	],
+	keywords: keywordsWithCaseVariations,
 
 	operators: [
 		'=', '>', '<', '!', '~', '?', ':',
@@ -77,10 +224,18 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_$][\w$]*/, {
+			[/[a-z_$][\w$]*/, {
 				cases: {
 					'@keywords': { token: 'keyword.$0' },
 					'@default': 'identifier'
+				}
+			}],
+
+			// assume that identifiers starting with an uppercase letter are types
+			[/[A-Z][\w\$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'type.identifier'
 				}
 			}],
 
@@ -103,9 +258,6 @@ export const language = <ILanguage>{
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
 			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
-			[/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
-			[/0(@octaldigits)[Ll]?/, 'number.octal'],
-			[/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
 			[/(@digits)[fFdD]/, 'number.float'],
 			[/(@digits)[lL]?/, 'number'],
 
@@ -113,8 +265,11 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/"/, 'string', '@string'],
+			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[/"/,  'string', '@string."' ],
+			[/'/,  'string', '@string.\'' ],
+
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -124,7 +279,7 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@apexdoc'],
 			[/\/\*/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment'],
 		],
@@ -136,20 +291,20 @@ export const language = <ILanguage>{
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
+
 		//Identical copy of comment above, except for the addition of .doc
-		javadoc: [
+		apexdoc: [
 			[/[^\/*]+/, 'comment.doc'],
-			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
-			[/\/\*/, 'comment.doc.invalid'],
 			[/\*\//, 'comment.doc', '@pop'],
 			[/[\/*]/, 'comment.doc']
 		],
 
 		string: [
-			[/[^\\"]+/, 'string'],
+			[/[^\\"']+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/"/, 'string', '@pop']
+			[/\\./,      'string.escape.invalid'],
+			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
+									'@default': 'string' }} ]
 		],
 	},
 };

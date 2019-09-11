@@ -1,21 +1,22 @@
 {
-  "name": "monaco-languages",
-  "version": "1.7.0",
-  "description": "Bundle of many languages for the Monaco Editor.",
+  "name": "monaco-languages-promql",
+  "version": "1.0.0-dev",
+  "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
     "watch": "tsc -p ./src --watch",
     "test": "mocha",
-    "prepublishOnly": "npm run compile && node ./scripts/bundle"
+    "prepublishOnly": "npm run compile && node ./scripts/bundle",
+    "build" : "tsc"
   },
-  "author": "Microsoft Corporation",
+  "author": "Célian GARCIA",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/monaco-languages"
+    "url": "https://github.com/celian-garcia/monaco-languages-promql"
   },
   "bugs": {
-    "url": "https://github.com/Microsoft/monaco-languages/issues"
+    "url": "https://github.com/celian-garcia/monaco-languages-promql/issues"
   },
   "devDependencies": {
     "jsdom": "^15.1.1",

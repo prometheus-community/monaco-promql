@@ -7,8 +7,9 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'sql',
-	extensions: ['.sql'],
-	aliases: ['SQL'],
-	loader: () => import('./sql')
+	id: 'promql',
+	extensions: ['.cls'],
+	aliases: ['Prometheus', 'prometheus', 'prom', 'Prom', 'promql', 'Promql', 'promQL', 'PromQL'],
+	mimetypes: [],
+	loader: () => import('./promql')
 });
