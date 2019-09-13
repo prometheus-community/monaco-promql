@@ -1,6 +1,6 @@
 {
   "name": "monaco-languages-promql",
-  "version": "1.0.0-dev7",
+  "version": "1.0.0",
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "compile": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
@@ -10,7 +10,6 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "author": "Célian GARCIA",
   "license": "MIT",
   "repository": {
     "type": "git",

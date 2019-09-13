@@ -96,12 +96,18 @@ const aggregationsOverTime = [];
 for (const agg of aggregations) {
 	aggregationsOverTime.push(agg + '_over_time');
 }
-
-
-// Merging all the keywords in one list, adding the 'by' and 'without' clauses.
-const keywords = aggregations.concat(functions).concat(aggregationsOverTime);
-keywords.push('by');
-keywords.push('without');
+// PromQL vector matching + the by and without clauses
+// (https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching)
+const vectorMatching = [
+	'on',
+	'ignoring',
+	'group_right',
+	'group_left',
+	'by',
+	'without',
+];
+// Produce a regex matching element : (elt1|elt2|...)
+const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => prev = `${prev}|${curr}`)})`
 
 // PromQL Operators
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/)
@@ -116,9 +122,11 @@ export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.promql',
 
-	keywords: keywords,
+	// Merging all the keywords in one list, adding the 'by' and 'without' clauses.
+	keywords: aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching),
 
 	operators: operators,
+	vectorMatching: vectorMatchingRegex,
 
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
@@ -127,17 +135,20 @@ export const language = <ILanguage>{
 	octaldigits: /[0-7]+(_+[0-7]+)*/,
 	binarydigits: /[0-1]+(_+[0-1]+)*/,
 	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
+	integersuffix: /(ll|LL|u|U|l|L)?(ll|LL|u|U|l|L)?/,
+	floatsuffix: /[fFlL]?/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 
+			// 'by', 'without' and vector matching
+			[/@vectorMatching\s*(?=\()/, 'type', '@clauses'],
+
 			// labels
-			[/\w+(?=(=|!=))/, 'tag'],
-			[/(?!by)(?!\()[\s*\w,]+(?=\))/, 'tag'],
+			[/[a-z_]\w*(?=\s*(=|!=|=~|!~))/, 'tag'],
 
-
-			// functions
+			// all keywords have the same color
 			[/[a-zA-Z_]\w*/, {
 				cases: {
 					'@keywords': 'type',
@@ -154,7 +165,25 @@ export const language = <ILanguage>{
 
 			// whitespace
 			{include: '@whitespace'},
+			
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/[<>](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
+			// numbers
+			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
+			[/\d*\.\d+([eE][\-+]?\d+)?(@floatsuffix)/, 'number.float'],
+			[/0[xX][0-9a-fA-F']*[0-9a-fA-F](@integersuffix)/, 'number.hex'],
+			[/0[0-7']*[0-7](@integersuffix)/, 'number.octal'],
+			[/0[bB][0-1']*[0-1](@integersuffix)/, 'number.binary'],
+			[/\d[\d']*\d(@integersuffix)/, 'number'],
+			[/\d(@integersuffix)/, 'number'],
 			[/\d+[smhdwy]/, 'number']
 		],
 
@@ -170,6 +199,11 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/'/, 'string', '@pop']
+		],
+
+		clauses: [
+			[/[^\(,\)]/, 'tag'],
+			[/\)/, 'identifier', '@pop']
 		],
 
 		string_backtick: [
@@ -193,3 +227,4 @@ export const language = <ILanguage>{
 		],
 	},
 };
+
