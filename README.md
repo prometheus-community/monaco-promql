@@ -16,4 +16,4 @@ Colorization and configuration supports for PromQL language for the Monaco Edito
 The format of this repository is directly copied from the [monaco-languages](https://github.com/microsoft/monaco-languages) repository
 
 ## License
-[MIT](https://github.com/celian-garcia/monaco-languages-promql/blob/master/LICENSE.md)
+[MIT](LICENSE.md)
