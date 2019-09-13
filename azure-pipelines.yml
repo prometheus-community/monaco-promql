@@ -26,3 +26,7 @@ steps:
 - script: |
     npm test
   displayName: 'test'
+  
+- task: Npm@1
+  inputs:
+    command: 'publish'
