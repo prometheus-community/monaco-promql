@@ -1,4 +1,4 @@
-# Monaco PromQL language
+# Monaco PromQL language [![Build Status](https://dev.azure.com/celiangarcia1/monaco-languages-promql/_apis/build/status/celian-garcia.monaco-languages-promql?branchName=master)](https://dev.azure.com/celiangarcia1/monaco-languages-promql/_build/latest?definitionId=1&branchName=master)
 
 Colorization and configuration supports for PromQL language for the Monaco Editor.
 
