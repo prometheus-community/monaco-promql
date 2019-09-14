@@ -2,7 +2,6 @@
 
 Colorization and configuration supports for PromQL language for the Monaco Editor.
 
-
 ## Dev: cheat sheet
 
 * initial setup with `npm install .`
