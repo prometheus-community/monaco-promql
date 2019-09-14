@@ -5,8 +5,7 @@
   "scripts": {
     "compile": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
     "watch": "tsc -p ./src --watch",
-    "test": "mocha",
-    "prepublishOnly": "npm run compile"
+    "test": "mocha"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
