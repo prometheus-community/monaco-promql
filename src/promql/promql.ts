@@ -3,11 +3,14 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
+// noinspection JSUnusedGlobalSymbols
 export const conf: IRichLanguageConfiguration = {
 	// the default separators except `@$`
-	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
+	wordPattern: /(-?\d*\.\d\w*)|([^`~!#%^&*()\-=+\[{\]}\\|;:'",.<>\/?\s]+)/g,
 	// Not possible to make comments in PromQL syntax
-	comments: {},
+	comments: {
+		lineComment: '#',
+	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
@@ -96,6 +99,7 @@ const aggregationsOverTime = [];
 for (const agg of aggregations) {
 	aggregationsOverTime.push(agg + '_over_time');
 }
+
 // PromQL vector matching + the by and without clauses
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching)
 const vectorMatching = [
@@ -106,8 +110,8 @@ const vectorMatching = [
 	'by',
 	'without',
 ];
-// Produce a regex matching element : (elt1|elt2|...)
-const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => prev = `${prev}|${curr}`)})`
+// Produce a regex matching elements : (elt1|elt2|...)
+const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => prev = `${prev}|${curr}`)})`;
 
 // PromQL Operators
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/)
@@ -117,6 +121,7 @@ const operators = [
 	'and', 'or', 'unless',
 ];
 
+// noinspection JSUnusedGlobalSymbols
 export const language = <ILanguage>{
 	ignoreCase: false,
 	defaultToken: '',
@@ -129,7 +134,7 @@ export const language = <ILanguage>{
 	vectorMatching: vectorMatchingRegex,
 
 	// we include these common regular expressions
-	symbols: /[=><!~?:&|+\-*\/\^%]+/,
+	symbols: /[=><!~?:&|+\-*\/^%]+/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	digits: /\d+(_+\d+)*/,
 	octaldigits: /[0-7]+(_+[0-7]+)*/,
@@ -148,6 +153,9 @@ export const language = <ILanguage>{
 			// labels
 			[/[a-z_]\w*(?=\s*(=|!=|=~|!~))/, 'tag'],
 
+			// comments
+			[/(^#.*$)/, 'comment'],
+
 			// all keywords have the same color
 			[/[a-zA-Z_]\w*/, {
 				cases: {
@@ -165,7 +173,7 @@ export const language = <ILanguage>{
 
 			// whitespace
 			{include: '@whitespace'},
-			
+
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
@@ -177,6 +185,7 @@ export const language = <ILanguage>{
 			}],
 
 			// numbers
+			[/\d+[smhdwy]/, 'number'], // 24h, 5m are often encountered in prometheus
 			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
 			[/\d*\.\d+([eE][\-+]?\d+)?(@floatsuffix)/, 'number.float'],
 			[/0[xX][0-9a-fA-F']*[0-9a-fA-F](@integersuffix)/, 'number.hex'],
@@ -184,7 +193,6 @@ export const language = <ILanguage>{
 			[/0[bB][0-1']*[0-1](@integersuffix)/, 'number.binary'],
 			[/\d[\d']*\d(@integersuffix)/, 'number'],
 			[/\d(@integersuffix)/, 'number'],
-			[/\d+[smhdwy]/, 'number']
 		],
 
 		string_double: [
@@ -201,11 +209,6 @@ export const language = <ILanguage>{
 			[/'/, 'string', '@pop']
 		],
 
-		clauses: [
-			[/[^\(,\)]/, 'tag'],
-			[/\)/, 'identifier', '@pop']
-		],
-
 		string_backtick: [
 			[/[^\\`$]+/, 'string'],
 			[/@escapes/, 'string.escape'],
@@ -213,17 +216,13 @@ export const language = <ILanguage>{
 			[/`/, 'string', '@pop']
 		],
 
-		comment: [
-			[/[^\/*]+/, 'comment'],
-			[/\/\*/, 'comment', '@push'],    // nested comment
-			["\\*/", 'comment', '@pop'],
-			[/[\/*]/, 'comment']
+		clauses: [
+			[/[^(,)]/, 'tag'],
+			[/\)/, 'identifier', '@pop']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
-			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
 		],
 	},
 };
