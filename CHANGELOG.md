@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0] - 2019-09-16
 - Renamed some variables to be more understandable.
   - ``def`` -> ``promLanguageDefinition``
   - ``conf`` -> ``languageConfiguration``
@@ -41,7 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Created two exported objects : ``conf: IRichLanguageConfiguration`` & ``language: ILanguage``.
 - Created the repository (cloned from [monaco-languages](https://github.com/microsoft/monaco-languages/)).
 
-[Unreleased]: https://github.com/celian-garcia/monaco-languages-promql/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/celian-garcia/monaco-languages-promql/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/celian-garcia/monaco-languages-promql/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/celian-garcia/monaco-languages-promql/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/celian-garcia/monaco-languages-promql/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/celian-garcia/monaco-languages-promql/releases/tag/v1.0.0
