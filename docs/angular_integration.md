@@ -34,8 +34,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { def } from 'monaco-languages-promql/lib/promql/promql.contribution';
 import { NgxMonacoEditorConfig } from 'ngx-monaco-editor';
-import ProviderResult = monaco.languages.ProviderResult;
-import CompletionList = monaco.languages.CompletionList;
 import { AppComponent } from './app.component';
 
 const monacoConfig: NgxMonacoEditorConfig = {
@@ -49,6 +47,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
       def.loader().then((mod) => {
         monaco.languages.setMonarchTokensProvider(languageId, mod.language);
         monaco.languages.setLanguageConfiguration(languageId, mod.conf);
+        monaco.languages.registerCompletionItemProvider(languageId, mod.completionItemProvider);
       });
     });
   }

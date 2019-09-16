@@ -2,6 +2,10 @@
 
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
+import ProviderResult = monaco.languages.ProviderResult;
+import CompletionList = monaco.languages.CompletionList;
+import CompletionItemProvider = monaco.languages.CompletionItemProvider;
+import CompletionItem = monaco.languages.CompletionItem;
 
 // noinspection JSUnusedGlobalSymbols
 export const conf: IRichLanguageConfiguration = {
@@ -111,7 +115,7 @@ const vectorMatching = [
 	'without',
 ];
 // Produce a regex matching elements : (elt1|elt2|...)
-const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => prev = `${prev}|${curr}`)})`;
+const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => `${prev}|${curr}`)})`;
 
 // PromQL Operators
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/)
@@ -121,14 +125,16 @@ const operators = [
 	'and', 'or', 'unless',
 ];
 
+// Merging all the keywords in one list
+const keywords = aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching);
+
 // noinspection JSUnusedGlobalSymbols
 export const language = <ILanguage>{
 	ignoreCase: false,
 	defaultToken: '',
 	tokenPostfix: '.promql',
 
-	// Merging all the keywords in one list, adding the 'by' and 'without' clauses.
-	keywords: aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching),
+	keywords: keywords,
 
 	operators: operators,
 	vectorMatching: vectorMatchingRegex,
@@ -225,5 +231,24 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, 'white'],
 		],
 	},
+};
+
+// noinspection JSUnusedGlobalSymbols
+export const completionItemProvider: CompletionItemProvider = {
+	provideCompletionItems: () => {
+
+		// To simplify, we made the choice to never create automatically the parenthesis behind keywords
+		// It is because in PromQL, some keywords need parenthesis behind, some don't, some can have but it's optional.
+		const suggestions = keywords.map(value => {
+			return {
+				label: value,
+				kind: monaco.languages.CompletionItemKind.Keyword,
+				insertText: value,
+				insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+			} as CompletionItem
+		});
+
+		return {suggestions} as ProviderResult<CompletionList>;
+	}
 };
 

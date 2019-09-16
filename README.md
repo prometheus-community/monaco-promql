@@ -18,7 +18,7 @@ Sorry for the moment I only made documentation on how to use it in angular.
 ## Roadmap
 - [ ] More usage documentation.
 - [ ] Versions mapping with PromQL.
-- [ ] Provide the auto-completion support.
+- [x] Provide the auto-completion support.
  
 ## Credits
 This repository is inspired by [monaco-languages](https://github.com/microsoft/monaco-languages) repository.
