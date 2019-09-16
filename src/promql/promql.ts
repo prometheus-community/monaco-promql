@@ -8,7 +8,7 @@ import CompletionItemProvider = monaco.languages.CompletionItemProvider;
 import CompletionItem = monaco.languages.CompletionItem;
 
 // noinspection JSUnusedGlobalSymbols
-export const conf: IRichLanguageConfiguration = {
+export const languageConfiguration: IRichLanguageConfiguration = {
 	// the default separators except `@$`
 	wordPattern: /(-?\d*\.\d\w*)|([^`~!#%^&*()\-=+\[{\]}\\|;:'",.<>\/?\s]+)/g,
 	// Not possible to make comments in PromQL syntax

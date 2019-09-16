@@ -31,8 +31,9 @@ Integrate the language into the configuration of the angular module.
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-import { def } from 'monaco-languages-promql/lib/promql/promql.contribution';
+import { promLanguageDefinition } from 'monaco-languages-promql/lib/promql/promql.contribution';
 import { NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { AppComponent } from './app.component';
 
@@ -41,12 +42,12 @@ const monacoConfig: NgxMonacoEditorConfig = {
   defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
   onMonacoLoad: () => {
     // Register the PromQL language from the library
-    const languageId = def.id;
-    monaco.languages.register(def);
+    const languageId = promLanguageDefinition.id;
+    monaco.languages.register(promLanguageDefinition);
     monaco.languages.onLanguage(languageId, () => {
-      def.loader().then((mod) => {
+      promLanguageDefinition.loader().then((mod) => {
         monaco.languages.setMonarchTokensProvider(languageId, mod.language);
-        monaco.languages.setLanguageConfiguration(languageId, mod.conf);
+        monaco.languages.setLanguageConfiguration(languageId, mod.languageConfiguration);
         monaco.languages.registerCompletionItemProvider(languageId, mod.completionItemProvider);
       });
     });
