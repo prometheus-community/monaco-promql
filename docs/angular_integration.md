@@ -74,3 +74,10 @@ const monacoConfig: NgxMonacoEditorConfig = {
 export class AppModule {
 }
 ```
+
+Implements now the editor as simply as using the ``ngx-monaco-editor`` component.
+
+```html
+<ngx-monaco-editor [options]="{ theme: 'vs-dark', language: 'promql' }"
+                   [(ngModel)]="sum(http_request_total)"></ngx-monaco-editor>
+```

@@ -16,10 +16,11 @@ https://celian-garcia.github.io/monaco-languages-promql/
 
 ## Usage
 Sorry for the moment I only made documentation on how to use it in angular.
+- [How to use it in an react project.](docs/react_integration.md)
 - [How to use it in an angular project.](docs/angular_integration.md)
 
 ## Roadmap
-- [ ] More usage documentation.
+- [x] More usage documentation.
 - [ ] Versions mapping with PromQL.
 - [x] Provide the auto-completion support.
  
