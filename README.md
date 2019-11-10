@@ -15,7 +15,7 @@ https://celian-garcia.github.io/monaco-languages-promql/
 * test with `npm run test`
 
 ## Usage
-Sorry for the moment I only made documentation on how to use it in angular.
+
 - [How to use it in an react project.](docs/react_integration.md)
 - [How to use it in an angular project.](docs/angular_integration.md)
 
