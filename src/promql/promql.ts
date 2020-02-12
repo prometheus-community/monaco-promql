@@ -125,8 +125,14 @@ const operators = [
 	'and', 'or', 'unless',
 ];
 
+// PromQL offset modifier
+// (https://prometheus.io/docs/prometheus/latest/querying/basics/#offset-modifier)
+const offsetModifier = [
+  'offset',
+];
+
 // Merging all the keywords in one list
-const keywords = aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching);
+const keywords = aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching).concat(offsetModifier);
 
 // noinspection JSUnusedGlobalSymbols
 export const language = <ILanguage>{

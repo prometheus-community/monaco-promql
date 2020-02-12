@@ -19,10 +19,20 @@ https://celian-garcia.github.io/monaco-languages-promql/
 - [How to use it in an react project.](docs/react_integration.md)
 - [How to use it in an angular project.](docs/angular_integration.md)
 
+## Development
+### Run example with local version
+```shell script
+npm compile
+npm link
+cd examples/<example-folder>
+npm link monaco-languages-promql
+npm start
+```
+
 ## Roadmap
 - [x] More usage documentation.
 - [ ] Versions mapping with PromQL.
 - [x] Provide the auto-completion support.
- 
+
 ## Credits
 This repository is inspired by [monaco-languages](https://github.com/microsoft/monaco-languages) repository.
