@@ -31,8 +31,9 @@ npm start
 
 ## Roadmap
 - [x] More usage documentation.
-- [ ] Versions mapping with PromQL.
 - [x] Provide the auto-completion support.
+- [ ] Versions mapping with PromQL.
+- [ ] More automation on release version in npmjs and angular gh-pages update 
 
 ## Credits
 This repository is inspired by [monaco-languages](https://github.com/microsoft/monaco-languages) repository.
