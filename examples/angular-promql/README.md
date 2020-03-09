@@ -31,6 +31,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ```
 npm install -g angular-cli-ghpages
-ng build --prod --base-href "https://celian-garcia.github.io/monaco-languages-promql/"
+ng build --prod --base-href "https://amadeusitgroup.github.io/Monaco-language-PromQL/"
 ngh -d dist/angular-promql
 ```

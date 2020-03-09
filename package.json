@@ -12,10 +12,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/celian-garcia/monaco-languages-promql"
+    "url": "https://github.com/AmadeusITGroup/Monaco-language-PromQL"
   },
   "bugs": {
-    "url": "https://github.com/celian-garcia/monaco-languages-promql/issues"
+    "url": "https://github.com/AmadeusITGroup/Monaco-language-PromQL/issues"
   },
   "devDependencies": {
     "jsdom": "^15.1.1",
