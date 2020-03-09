@@ -1,4 +1,4 @@
-# Monaco PromQL language [![Build Status](https://dev.azure.com/celiangarcia1/monaco-languages-promql/_apis/build/status/celian-garcia.monaco-languages-promql?branchName=master)](https://dev.azure.com/celiangarcia1/monaco-languages-promql/_build/latest?definitionId=1&branchName=master) [![npm version](https://badge.fury.io/js/monaco-languages-promql.svg)](https://badge.fury.io/js/monaco-languages-promql) [![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE.md)
+# Monaco PromQL language [![npm version](https://badge.fury.io/js/monaco-languages-promql.svg)](https://badge.fury.io/js/monaco-languages-promql) [![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE.md)
 
 Colorization and configuration supports for PromQL language for the Monaco Editor.
 
