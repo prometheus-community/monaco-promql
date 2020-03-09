@@ -6,7 +6,7 @@ Colorization and configuration supports for PromQL language for the Monaco Edito
 > Samples coming from https://github.com/infinityworks/prometheus-example-queries
 
 ## Playground
-https://celian-garcia.github.io/monaco-languages-promql/
+https://amadeusitgroup.github.io/Monaco-language-PromQL/
 
 ## Installation
 
