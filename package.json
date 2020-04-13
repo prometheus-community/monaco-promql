@@ -1,6 +1,6 @@
 {
-  "name": "monaco-languages-promql",
-  "version": "1.4.0",
+  "name": "monaco-promql",
+  "version": "1.5.0",
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "compile": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
@@ -12,10 +12,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AmadeusITGroup/Monaco-language-PromQL"
+    "url": "https://github.com/prometheus-community/monaco-promql"
   },
   "bugs": {
-    "url": "https://github.com/AmadeusITGroup/Monaco-language-PromQL/issues"
+    "url": "https://github.com/prometheus-community/monaco-promql/issues"
   },
   "devDependencies": {
     "jsdom": "^15.1.1",
