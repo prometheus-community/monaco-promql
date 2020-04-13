@@ -1,11 +1,11 @@
 # How to use it in an angular project
 Add the these dependencies to your ``package.json`` :
 - [atularen/ngx-monaco-editor](https://github.com/atularen/ngx-monaco-editor)
-- [celian-garcia/monaco-languages-promql](https://github.com/celian-garcia/monaco-languages-promql)
+- [prometheus-community/monaco-promql](https://github.com/prometheus-community/monaco-promql)
 
 ```bash
 npm install ngx-monaco-editor --save
-npm install monaco-languages-promql --save
+npm install monaco-promql --save
 ```
 
 Add the glob to assets in your ``angular.json`` configuration file.
@@ -36,7 +36,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-import { promLanguageDefinition } from 'monaco-languages-promql/lib/promql/promql.contribution';
+import { promLanguageDefinition } from 'monaco-promql/promql/promql.contribution';
 import { NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { AppComponent } from './app.component';
 
