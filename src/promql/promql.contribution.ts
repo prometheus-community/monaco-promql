@@ -28,7 +28,5 @@ export const promLanguageDefinition = {
 	extensions: [ '.promql' ],
 	aliases: [ 'Prometheus', 'prometheus', 'prom', 'Prom', 'promql', 'Promql', 'promQL', 'PromQL' ],
 	mimetypes: [],
-	loader: (): void => {
-		import('./promql')
-	}
+	loader: () => import('./promql')  // eslint-disable-line @typescript-eslint/explicit-function-return-type
 };
