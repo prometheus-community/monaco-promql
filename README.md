@@ -1,4 +1,4 @@
-# Monaco PromQL language [![npm version](https://badge.fury.io/js/monaco-promql.svg)](https://badge.fury.io/js/monaco-languages-promql) [![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE.md)
+# Monaco PromQL language [![CircleCI](https://circleci.com/gh/prometheus-community/monaco-promql.svg?style=shield)](https://circleci.com/gh/prometheus-community/monaco-promql) [![npm version](https://badge.fury.io/js/monaco-promql.svg)](https://badge.fury.io/js/monaco-languages-promql) [![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE.md)
 
 ## Overview
 
