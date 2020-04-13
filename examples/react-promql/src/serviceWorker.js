@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) Amadeus IT Group
+// Copyright (c) Celian Garcia and Augustin Husson @ Amadeus IT Group
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // -------------------- End of License ---------------------
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
