@@ -3,7 +3,7 @@
   "version": "1.5.0",
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
-    "compile": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
+    "build": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
     "watch": "tsc -p ./src --watch",
     "test": "mocha"
   },
