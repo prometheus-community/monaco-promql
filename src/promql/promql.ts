@@ -38,9 +38,9 @@ export const languageConfiguration: IRichLanguageConfiguration = {
 		lineComment: '#',
 	},
 	brackets: [
-		['{', '}'],
-		['[', ']'],
-		['(', ')'],
+		[ '{', '}' ],
+		[ '[', ']' ],
+		[ '(', ')' ],
 	],
 	autoClosingPairs: [
 		{open: '{', close: '}'},
@@ -150,14 +150,14 @@ const operators = [
 // PromQL offset modifier
 // (https://prometheus.io/docs/prometheus/latest/querying/basics/#offset-modifier)
 const offsetModifier = [
-  'offset',
+	'offset',
 ];
 
 // Merging all the keywords in one list
 const keywords = aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching).concat(offsetModifier);
 
 // noinspection JSUnusedGlobalSymbols
-export const language = <ILanguage>{
+export const language = {
 	ignoreCase: false,
 	defaultToken: '',
 	tokenPostfix: '.promql',
@@ -182,84 +182,84 @@ export const language = <ILanguage>{
 		root: [
 
 			// 'by', 'without' and vector matching
-			[/@vectorMatching\s*(?=\()/, 'type', '@clauses'],
+			[ /@vectorMatching\s*(?=\()/, 'type', '@clauses' ],
 
 			// labels
-			[/[a-z_]\w*(?=\s*(=|!=|=~|!~))/, 'tag'],
+			[ /[a-z_]\w*(?=\s*(=|!=|=~|!~))/, 'tag' ],
 
 			// comments
-			[/(^#.*$)/, 'comment'],
+			[ /(^#.*$)/, 'comment' ],
 
 			// all keywords have the same color
-			[/[a-zA-Z_]\w*/, {
+			[ /[a-zA-Z_]\w*/, {
 				cases: {
 					'@keywords': 'type',
 					'@default': 'identifier'
 				}
-			}],
+			} ],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/"/, 'string', '@string_double'],
-			[/'/, 'string', '@string_single'],
-			[/`/, 'string', '@string_backtick'],
+			[ /"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[ /'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[ /"/, 'string', '@string_double' ],
+			[ /'/, 'string', '@string_single' ],
+			[ /`/, 'string', '@string_backtick' ],
 
 			// whitespace
 			{include: '@whitespace'},
 
 			// delimiters and operators
-			[/[{}()\[\]]/, '@brackets'],
-			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
+			[ /[{}()\[\]]/, '@brackets' ],
+			[ /[<>](?!@symbols)/, '@brackets' ],
+			[ /@symbols/, {
 				cases: {
 					'@operators': 'delimiter',
 					'@default': ''
 				}
-			}],
+			} ],
 
 			// numbers
-			[/\d+[smhdwy]/, 'number'], // 24h, 5m are often encountered in prometheus
-			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
-			[/\d*\.\d+([eE][\-+]?\d+)?(@floatsuffix)/, 'number.float'],
-			[/0[xX][0-9a-fA-F']*[0-9a-fA-F](@integersuffix)/, 'number.hex'],
-			[/0[0-7']*[0-7](@integersuffix)/, 'number.octal'],
-			[/0[bB][0-1']*[0-1](@integersuffix)/, 'number.binary'],
-			[/\d[\d']*\d(@integersuffix)/, 'number'],
-			[/\d(@integersuffix)/, 'number'],
+			[ /\d+[smhdwy]/, 'number' ], // 24h, 5m are often encountered in prometheus
+			[ /\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float' ],
+			[ /\d*\.\d+([eE][\-+]?\d+)?(@floatsuffix)/, 'number.float' ],
+			[ /0[xX][0-9a-fA-F']*[0-9a-fA-F](@integersuffix)/, 'number.hex' ],
+			[ /0[0-7']*[0-7](@integersuffix)/, 'number.octal' ],
+			[ /0[bB][0-1']*[0-1](@integersuffix)/, 'number.binary' ],
+			[ /\d[\d']*\d(@integersuffix)/, 'number' ],
+			[ /\d(@integersuffix)/, 'number' ],
 		],
 
-		string_double: [
-			[/[^\\"]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/"/, 'string', '@pop']
+		string_double: [ // eslint-disable-line @typescript-eslint/camelcase
+			[ /[^\\"]+/, 'string' ],
+			[ /@escapes/, 'string.escape' ],
+			[ /\\./, 'string.escape.invalid' ],
+			[ /"/, 'string', '@pop' ]
 		],
 
-		string_single: [
-			[/[^\\']+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/'/, 'string', '@pop']
+		string_single: [  // eslint-disable-line @typescript-eslint/camelcase
+			[ /[^\\']+/, 'string' ],
+			[ /@escapes/, 'string.escape' ],
+			[ /\\./, 'string.escape.invalid' ],
+			[ /'/, 'string', '@pop' ]
 		],
 
-		string_backtick: [
-			[/[^\\`$]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/`/, 'string', '@pop']
+		string_backtick: [  // eslint-disable-line @typescript-eslint/camelcase
+			[ /[^\\`$]+/, 'string' ],
+			[ /@escapes/, 'string.escape' ],
+			[ /\\./, 'string.escape.invalid' ],
+			[ /`/, 'string', '@pop' ]
 		],
 
 		clauses: [
-			[/[^(,)]/, 'tag'],
-			[/\)/, 'identifier', '@pop']
+			[ /[^(,)]/, 'tag' ],
+			[ /\)/, 'identifier', '@pop' ]
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, 'white'],
+			[ /[ \t\r\n]+/, 'white' ],
 		],
 	},
-};
+} as ILanguage;
 
 // noinspection JSUnusedGlobalSymbols
 export const completionItemProvider: CompletionItemProvider = {

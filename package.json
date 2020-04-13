@@ -4,6 +4,7 @@
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "build": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
+    "lint": "eslint src/ --ext .ts",
     "watch": "tsc -p ./src --watch",
     "test": "mocha"
   },
@@ -17,7 +18,16 @@
   "bugs": {
     "url": "https://github.com/prometheus-community/monaco-promql/issues"
   },
+  "keywords": [
+    "promql",
+    "monaco",
+    "monaco-editor",
+    "prometheus"
+  ],
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
     "jsdom": "^15.1.1",
     "mocha": "^6.1.4",
     "monaco-editor-core": "0.17.0",
