@@ -36,7 +36,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-import { promLanguageDefinition } from 'monaco-promql/promql/promql.contribution';
+import { promLanguageDefinition } from 'monaco-promql';
 import { NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { AppComponent } from './app.component';
 

@@ -22,7 +22,7 @@
 
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import {promLanguageDefinition} from 'monaco-promql/promql/promql.contribution';
+import {promLanguageDefinition} from 'monaco-promql';
 
 
 function App() {

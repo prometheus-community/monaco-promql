@@ -24,7 +24,7 @@ Here is an example of simple component.
 
 ```javascript
 import MonacoEditor from 'react-monaco-editor';
-import {promLanguageDefinition} from 'monaco-promql/promql/promql.contribution';
+import {promLanguageDefinition} from 'monaco-promql';
 
 function App() {
 	function editorWillMount(monaco) {
