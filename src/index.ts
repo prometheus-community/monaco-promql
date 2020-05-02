@@ -22,4 +22,4 @@
 
 'use strict';
 
-import './promql/promql.contribution.ts';
+export * from './promql/promql.contribution';

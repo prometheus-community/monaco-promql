@@ -36,10 +36,12 @@ Any contribution or suggestion would be really appreciated. Feel free to use the
 ## Development
 ### Run example with local version
 ```shell script
+npm install
 npm run build
 npm link
 cd examples/<example-folder>
-npm link monaco-languages-promql
+npm install
+npm link monaco-promql
 npm start
 ```
 

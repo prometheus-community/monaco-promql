@@ -26,9 +26,9 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 
-import {promLanguageDefinition} from 'monaco-promql/promql/promql.contribution';
+import {promLanguageDefinition} from 'monaco-promql';
 import {MonacoEditorModule, NgxMonacoEditorConfig} from 'ngx-monaco-editor';
-import {FormsModule} from "@angular/forms";
+import {FormsModule} from '@angular/forms';
 
 
 export function onMonacoLoad(): void {
