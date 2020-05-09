@@ -43,7 +43,6 @@ jobs:
 
       - run: npm run lint
 
-
   publish:
     <<: *defaults
     steps:
@@ -55,6 +54,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run: cp ~/repo/README.md ~/repo/lib/README.md
       - run: cp ~/repo/package.json ~/repo/lib/package.json
+      - run: cd ~/repo/lib && npm version --no-git-tag-version ${CIRCLE_TAG}
       - run: npm publish ~/repo/lib --access public
 
 workflows:
