@@ -1,6 +1,6 @@
 {
   "name": "monaco-promql",
-  "version": "1.5.1",
+  "version": "0.0.0",
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "build": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
