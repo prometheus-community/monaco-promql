@@ -67,6 +67,7 @@ const aggregations = [
 	'min',
 	'max',
 	'avg',
+	'group',
 	'stddev',
 	'stdvar',
 	'count',
