@@ -30,7 +30,7 @@ import IEditorConstructionOptions = monaco.editor.IEditorConstructionOptions;
 })
 export class AppComponent {
   title = 'angular-promql';
-  editorOptions: IEditorConstructionOptions = {
+  editorOptions = {
     theme: 'vs-dark',
     language: 'promql'
   };
