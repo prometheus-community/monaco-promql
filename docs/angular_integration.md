@@ -4,80 +4,66 @@ Add the these dependencies to your ``package.json`` :
 - [prometheus-community/monaco-promql](https://github.com/prometheus-community/monaco-promql)
 
 ```bash
-npm install ngx-monaco-editor --save
+npm install @monaco-editor/loader --save
 npm install monaco-promql --save
 ```
 
-Add the glob to assets in your ``angular.json`` configuration file.
+> **Disclaimer**
+> I didn't manage to make a good plug-and-play integration for Angular.
+> It is a bit a mess but so far it works, modify as you wish and propose enhancements !
 
-```json
-{
-  "projects": {
-    "my-project": {
-      "architect": {
-        "build": {
-          "options": {
-            "assets": [
-              { "glob": "**/*", "input": "./node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
-            ]
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-Integrate the language into the configuration of the angular module.
+- Copy the homemade monaco module from the [angular example](./../examples/angular-promql/src/app/monaco).
+- Mind the version of monaco-editor in the [MonacoLoaderService](./../examples/angular-promql/src/app/monaco/monaco-loader.service.ts).
+  It should be the same as the one in your [package.json](./../examples/angular-promql/package.json).
+- Initialize monaco from your main angular module.
 
 ```typescript
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
-import { promLanguageDefinition } from 'monaco-promql';
-import { NgxMonacoEditorConfig } from 'ngx-monaco-editor';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-export function onMonacoLoad(): void {
-  // Register the PromQL language from the library
-  const languageId = promLanguageDefinition.id;
-  monaco.languages.register(promLanguageDefinition);
-  monaco.languages.onLanguage(languageId, () => {
-    promLanguageDefinition.loader().then((mod) => {
-      monaco.languages.setMonarchTokensProvider(languageId, mod.language);
-      monaco.languages.setLanguageConfiguration(languageId, mod.languageConfiguration);
-      monaco.languages.registerCompletionItemProvider(languageId, mod.completionItemProvider);
-    });
-  });
+import { FormsModule } from '@angular/forms';
+import { MonacoStoreService } from './monaco/monaco-store.service';
+import { MonacoLoaderService } from './monaco/monaco-loader.service';
+import { MonacoModule } from './monaco/monaco.module';
+
+function initializeMonaco(loader: MonacoLoaderService, store: MonacoStoreService): () => Promise<void> {
+	return () => {
+		return loader.initialize().then(monaco => {
+			loader.registerPromQLLanguage(monaco);
+			store.monacoInstance = monaco;
+		});
+	};
 }
 
-const monacoConfig: NgxMonacoEditorConfig = {
-  baseUrl: 'assets', // configure base path for monaco editor default: './assets'
-  defaultOptions: {scrollBeyondLastLine: false}, // pass default options to be used
-  onMonacoLoad
-};
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    MonacoEditorModule.forRoot(monacoConfig)
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		AppRoutingModule,
+		MonacoModule
+	],
+	providers: [
+		{
+			provide: APP_INITIALIZER,
+			multi: true,
+			deps: [MonacoLoaderService, MonacoStoreService],
+			useFactory: initializeMonaco
+		}
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }
 ```
 
-Implements now the editor as simply as using the ``ngx-monaco-editor`` component.
+- Implements now the editor as simply as using the ``app-monaco-editor`` component.
 
 ```html
-<ngx-monaco-editor [options]="{ theme: 'vs-dark', language: 'promql' }"
-                   [(ngModel)]="sum(http_request_total)"></ngx-monaco-editor>
+<app-monaco-editor [(ngModel)]="'sum(http_request_total)'"></app-monaco-editor>
 ```

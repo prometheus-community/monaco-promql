@@ -21,13 +21,13 @@
 // SOFTWARE.
 
 'use strict';
-
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
-import ProviderResult = monaco.languages.ProviderResult;
-import CompletionList = monaco.languages.CompletionList;
-import CompletionItemProvider = monaco.languages.CompletionItemProvider;
-import CompletionItem = monaco.languages.CompletionItem;
+import { languages } from "monaco-editor";
+import IRichLanguageConfiguration = languages.LanguageConfiguration;
+import ILanguage = languages.IMonarchLanguage;
+import ProviderResult = languages.ProviderResult;
+import CompletionList = languages.CompletionList;
+import CompletionItemProvider = languages.CompletionItemProvider;
+import CompletionItem = languages.CompletionItem;
 
 // noinspection JSUnusedGlobalSymbols
 export const languageConfiguration: IRichLanguageConfiguration = {
@@ -271,9 +271,9 @@ export const completionItemProvider: CompletionItemProvider = {
 		const suggestions = keywords.map(value => {
 			return {
 				label: value,
-				kind: monaco.languages.CompletionItemKind.Keyword,
+				kind: languages.CompletionItemKind.Keyword,
 				insertText: value,
-				insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+				insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet
 			} as CompletionItem
 		});
 

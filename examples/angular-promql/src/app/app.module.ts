@@ -20,35 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
-import {promLanguageDefinition} from 'monaco-promql';
-import {MonacoEditorModule, NgxMonacoEditorConfig} from 'ngx-monaco-editor';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MonacoStoreService } from './monaco/monaco-store.service';
+import { MonacoLoaderService } from './monaco/monaco-loader.service';
+import { MonacoModule } from './monaco/monaco.module';
 
-
-export function onMonacoLoad(): void {
-  // Register the PromQL language from the library
-  const languageId = promLanguageDefinition.id;
-  monaco.languages.register(promLanguageDefinition);
-  monaco.languages.onLanguage(languageId, () => {
-    promLanguageDefinition.loader().then((mod) => {
-      monaco.languages.setMonarchTokensProvider(languageId, mod.language);
-      monaco.languages.setLanguageConfiguration(languageId, mod.languageConfiguration);
-      monaco.languages.registerCompletionItemProvider(languageId, mod.completionItemProvider);
+function initializeMonaco(loader: MonacoLoaderService, store: MonacoStoreService): () => Promise<void> {
+  return () => {
+    return loader.initialize().then(monaco => {
+      loader.registerPromQLLanguage(monaco);
+      store.monacoInstance = monaco;
     });
-  });
+  };
 }
-
-const monacoConfig: NgxMonacoEditorConfig = {
-  baseUrl: 'assets', // configure base path for monaco editor default: './assets'
-  defaultOptions: {scrollBeyondLastLine: false}, // pass default options to be used
-  onMonacoLoad
-};
 
 @NgModule({
   declarations: [
@@ -58,9 +48,16 @@ const monacoConfig: NgxMonacoEditorConfig = {
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    MonacoEditorModule.forRoot(monacoConfig)
+    MonacoModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [MonacoLoaderService, MonacoStoreService],
+      useFactory: initializeMonaco
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
