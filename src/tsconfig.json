@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
-		"module": "amd",
+		"module": "esnext",
+		"moduleResolution": "node",
 		"outDir": "../lib",
 		"target": "es5",
-		"declaration": true,
 		"lib": [
 			"dom",
 			"es5",
@@ -11,11 +11,5 @@
 			"es2015.iterable",
 			"es2015.promise"
 		]
-	},
-	"include": [
-		"**/*.ts"
-	],
-	"files": [
-		"../node_modules/monaco-editor-core/monaco.d.ts"
-	]
+	}
 }

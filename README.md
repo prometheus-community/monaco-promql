@@ -43,6 +43,7 @@ cd examples/<example-folder>
 npm install
 npm link monaco-promql
 npm start
+# Then modify manually the monaco-promql import :/ "monaco-promql" -> "monaco-promql/lib"
 ```
 
 ## Roadmap
