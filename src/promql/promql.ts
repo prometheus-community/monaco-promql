@@ -230,21 +230,21 @@ export const language = {
 			[ /\d(@integersuffix)/, 'number' ],
 		],
 
-		string_double: [ // eslint-disable-line @typescript-eslint/camelcase
+		string_double: [ // eslint-disable-line @typescript-eslint/naming-convention
 			[ /[^\\"]+/, 'string' ],
 			[ /@escapes/, 'string.escape' ],
 			[ /\\./, 'string.escape.invalid' ],
 			[ /"/, 'string', '@pop' ]
 		],
 
-		string_single: [  // eslint-disable-line @typescript-eslint/camelcase
+		string_single: [  // eslint-disable-line @typescript-eslint/naming-convention
 			[ /[^\\']+/, 'string' ],
 			[ /@escapes/, 'string.escape' ],
 			[ /\\./, 'string.escape.invalid' ],
 			[ /'/, 'string', '@pop' ]
 		],
-
-		string_backtick: [  // eslint-disable-line @typescript-eslint/camelcase
+		
+		string_backtick: [ // eslint-disable-line @typescript-eslint/naming-convention
 			[ /[^\\`$]+/, 'string' ],
 			[ /@escapes/, 'string.escape' ],
 			[ /\\./, 'string.escape.invalid' ],
