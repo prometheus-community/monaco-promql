@@ -3,16 +3,13 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
-
 defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:10.16.3
-
 jobs:
-
   build-lib:
-    <<: *defaults
+    !!merge <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -30,9 +27,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
   lint-lib:
-    <<: *defaults
+    !!merge <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -40,11 +36,9 @@ jobs:
             - v1-dependencies-{{ checksum "package-lock.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       - run: npm run lint
-
   publish:
-    <<: *defaults
+    !!merge <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -56,7 +50,6 @@ jobs:
       - run: cp ~/repo/package.json ~/repo/lib/package.json
       - run: cd ~/repo/lib && npm version --no-git-tag-version ${CIRCLE_TAG}
       - run: npm publish ~/repo/lib --access public
-
 workflows:
   version: 2
   test-deploy:
@@ -79,3 +72,5 @@ workflows:
               only: /.*/
             branches:
               ignore: /.*/
+orbs:
+  prometheus: prometheus/prometheus@0.11.0
