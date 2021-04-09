@@ -4,6 +4,7 @@
 		"moduleResolution": "node",
 		"outDir": "../lib",
 		"target": "es5",
+		"declaration": true,
 		"lib": [
 			"dom",
 			"es5",
