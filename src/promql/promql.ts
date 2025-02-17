@@ -75,6 +75,8 @@ const aggregations = [
 	'bottomk',
 	'topk',
 	'quantile',
+	'limitk',
+	'limit_ratio',
 ];
 
 // PromQL functions
@@ -84,20 +86,30 @@ const functions = [
 	'absent',
 	'ceil',
 	'changes',
+	'clamp',
 	'clamp_max',
 	'clamp_min',
 	'day_of_month',
 	'day_of_week',
+	'day_of_year',
 	'days_in_month',
 	'delta',
 	'deriv',
 	'exp',
 	'floor',
+	'histogram_avg',
+	'histogram_count',
+	'histogram_sum',
+	'histogram_fraction',
 	'histogram_quantile',
-	'holt_winters',
+	'histogram_stddev',
+	'histogram_stdvar',
+	'double_exponential_smoothing',
+	'holt_winters', // keep it in case it's still v2
 	'hour',
 	'idelta',
 	'increase',
+	'info',
 	'irate',
 	'label_join',
 	'label_replace',
@@ -111,13 +123,36 @@ const functions = [
 	'resets',
 	'round',
 	'scalar',
+	'sgn',
 	'sort',
 	'sort_desc',
+	'sort_by_label',
+	'sort_by_label_desc',
 	'sqrt',
 	'time',
 	'timestamp',
 	'vector',
 	'year',
+];
+
+// PromQL trigonometric functions
+// https://prometheus.io/docs/prometheus/latest/querying/functions/#trigonometric-functions
+const trigonometricFunctions = [
+	'acos',
+	'acosh',
+	'asin',
+	'asinh',
+	'atan',
+	'atanh',
+	'cos',
+	'cosh',
+	'sin',
+	'sinh',
+	'tan',
+	'tanh',
+	'deg',
+	'pi',
+	'rad',
 ];
 
 // PromQL specific functions: Aggregations over time
@@ -155,7 +190,7 @@ const offsetModifier = [
 ];
 
 // Merging all the keywords in one list
-const keywords = aggregations.concat(functions).concat(aggregationsOverTime).concat(vectorMatching).concat(offsetModifier);
+const keywords = aggregations.concat(functions).concat(trigonometricFunctions).concat(aggregationsOverTime).concat(vectorMatching).concat(offsetModifier);
 
 // noinspection JSUnusedGlobalSymbols
 export const language = {
@@ -243,7 +278,7 @@ export const language = {
 			[ /\\./, 'string.escape.invalid' ],
 			[ /'/, 'string', '@pop' ]
 		],
-		
+
 		string_backtick: [ // eslint-disable-line @typescript-eslint/naming-convention
 			[ /[^\\`$]+/, 'string' ],
 			[ /@escapes/, 'string.escape' ],
