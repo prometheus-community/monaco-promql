@@ -21,18 +21,18 @@
 // SOFTWARE.
 
 import { Component } from '@angular/core';
+import {MonacoEditorComponent} from './monaco/monaco-editor.component';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
+  imports: [FormsModule, MonacoEditorComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'angular-promql';
-  editorOptions = {
-    theme: 'vs-dark',
-    language: 'promql'
-  };
+
   text = '100 * (1 - avg by(instance)(irate(node_cpu{mode=\'idle\'}[5m])))\n' +
     '\n' +
     'rate(demo_api_request_duration_seconds_count{status="500",job="demo"}[5m]) * 50\n' +
