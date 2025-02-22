@@ -19,13 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-import { Injectable } from '@angular/core';
-import { Monaco } from '@monaco-editor/loader';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonacoStoreService {
-  public monacoInstance: Monaco;
+  public monacoInstance: any;
 }
