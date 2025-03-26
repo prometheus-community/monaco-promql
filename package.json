@@ -31,6 +31,7 @@
     "jsdom": "^16.5.0",
     "mocha": "^10.0.0",
     "monaco-editor": "*",
+    "monaco-plugin-helpers": "^1.0.3",
     "requirejs": "^2.3.6",
     "typescript": "^4.2.3",
     "uglify-js": "^3.13.1"
