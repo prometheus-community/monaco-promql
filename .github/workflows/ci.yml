@@ -10,6 +10,7 @@ on:
       - '**'
 
 permissions:
+  id-token: write  # Required for OIDC trusted publishing
   contents: read
 
 jobs:
@@ -98,5 +99,3 @@ jobs:
 
       - name: Publish
         run: npm publish ./lib --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
