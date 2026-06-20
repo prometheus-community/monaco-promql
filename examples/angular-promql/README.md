@@ -1,6 +1,6 @@
 # AngularPromql
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.
 
 ## Development server
 
@@ -60,8 +60,8 @@ For more information on using the Angular CLI, including detailed command refere
 
 ## Deploy to Github Page
 
-```
+```bash
 npm install -g angular-cli-ghpages
-ng build --prod --base-href "https://prometheus-community.github.io/monaco-promql/"
+ng build --configuration production --base-href "https://prometheus-community.github.io/monaco-promql/"
 ngh -d dist/angular-promql
 ```

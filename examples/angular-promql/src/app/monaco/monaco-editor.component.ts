@@ -31,15 +31,12 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
-import { editor } from 'monaco-editor';
-import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
-import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
 import { MonacoStoreService } from './monaco-store.service';
 
 const OPTIONS = {
   theme: 'vs-dark',
   language: 'promql',
-} as IStandaloneEditorConstructionOptions;
+};
 
 @Component({
   selector: 'app-monaco-editor',
@@ -57,7 +54,7 @@ export class MonacoEditorComponent implements OnInit, OnDestroy, ControlValueAcc
   @ViewChild('container', { static: true }) container!: ElementRef;
 
   private _value?: string;
-  private _editor?: IStandaloneCodeEditor;
+  private _editor?: any;
   private _windowResizeSubscription?: Subscription;
 
   private _store: MonacoStoreService = inject(MonacoStoreService);
@@ -94,13 +91,19 @@ export class MonacoEditorComponent implements OnInit, OnDestroy, ControlValueAcc
     }
   }
 
-  private initEditor(options: IStandaloneEditorConstructionOptions): void {
-    this._editor = this.monaco.editor.create(this.container.nativeElement, options);
-    this._editor?.setModel(this.monaco.editor.createModel(this._value, 'promql'));
-    this._editor?.onDidChangeModelContent((_: any) => {
-      const value = this._editor?.getValue();
+  private initEditor(options: any): void {
+    if (!this.monaco) {
+      return;
+    }
+
+    const editorInstance = this.monaco.editor.create(this.container.nativeElement, options);
+    editorInstance.setModel(this.monaco.editor.createModel(this._value ?? '', 'promql'));
+    editorInstance.onDidChangeModelContent(() => {
+      const value = editorInstance.getValue() ?? '';
       this.propagateChange(value);
     });
+    this._editor = editorInstance;
+
     if (this._windowResizeSubscription) {
       this._windowResizeSubscription.unsubscribe();
     }

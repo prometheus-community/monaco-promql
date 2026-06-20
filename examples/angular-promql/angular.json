@@ -21,13 +21,17 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              { "glob": "**/*", "input": "./node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" },
+              { "glob": "**/*", "input": "./node_modules/monaco-editor/min/vs", "output": "./assets/monaco/vs" },
               { "glob": "**/*", "input": "public" }
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "preserveSymlinks": true,
+            "loader": {
+              ".ttf": "file"
+            }
           },
           "configurations": {
             "production": {
