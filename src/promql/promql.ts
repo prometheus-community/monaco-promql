@@ -29,6 +29,12 @@ import CompletionList = languages.CompletionList;
 import CompletionItemProvider = languages.CompletionItemProvider;
 import CompletionItem = languages.CompletionItem;
 
+import {
+	aggregateOpModifierTerms,
+	aggregateOpTerms, atModifierTerms, binOpModifierTerms, binOpTerms,
+	functionIdentifierTerms
+} from "@prometheus-io/codemirror-promql/dist/cjs/complete/promql.terms";
+
 // noinspection JSUnusedGlobalSymbols
 export const languageConfiguration: IRichLanguageConfiguration = {
 	// the default separators except `@$`
@@ -60,137 +66,20 @@ export const languageConfiguration: IRichLanguageConfiguration = {
 	folding: {}
 };
 
-// PromQL Aggregation Operators
-// (https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators)
-const aggregations = [
-	'sum',
-	'min',
-	'max',
-	'avg',
-	'group',
-	'stddev',
-	'stdvar',
-	'count',
-	'count_values',
-	'bottomk',
-	'topk',
-	'quantile',
-	'limitk',
-	'limit_ratio',
-];
-
-// PromQL functions
-// (https://prometheus.io/docs/prometheus/latest/querying/functions/)
-const functions = [
-	'abs',
-	'absent',
-	'ceil',
-	'changes',
-	'clamp',
-	'clamp_max',
-	'clamp_min',
-	'day_of_month',
-	'day_of_week',
-	'day_of_year',
-	'days_in_month',
-	'delta',
-	'deriv',
-	'exp',
-	'floor',
-	'histogram_avg',
-	'histogram_count',
-	'histogram_sum',
-	'histogram_fraction',
-	'histogram_quantile',
-	'histogram_stddev',
-	'histogram_stdvar',
-	'double_exponential_smoothing',
-	'holt_winters', // keep it in case it's still v2
-	'hour',
-	'idelta',
-	'increase',
-	'info',
-	'irate',
-	'label_join',
-	'label_replace',
-	'ln',
-	'log2',
-	'log10',
-	'minute',
-	'month',
-	'predict_linear',
-	'rate',
-	'resets',
-	'round',
-	'scalar',
-	'sgn',
-	'sort',
-	'sort_desc',
-	'sort_by_label',
-	'sort_by_label_desc',
-	'sqrt',
-	'time',
-	'timestamp',
-	'vector',
-	'year',
-];
-
-// PromQL trigonometric functions
-// https://prometheus.io/docs/prometheus/latest/querying/functions/#trigonometric-functions
-const trigonometricFunctions = [
-	'acos',
-	'acosh',
-	'asin',
-	'asinh',
-	'atan',
-	'atanh',
-	'cos',
-	'cosh',
-	'sin',
-	'sinh',
-	'tan',
-	'tanh',
-	'deg',
-	'pi',
-	'rad',
-];
-
-// PromQL specific functions: Aggregations over time
-// (https://prometheus.io/docs/prometheus/latest/querying/functions/#aggregation_over_time)
-const aggregationsOverTime = [];
-for (const agg of aggregations) {
-	aggregationsOverTime.push(agg + '_over_time');
-}
-
-// PromQL vector matching + the by and without clauses
-// (https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching)
-const vectorMatching = [
-	'on',
-	'ignoring',
-	'group_right',
-	'group_left',
-	'by',
-	'without',
-];
+const vectorMatching = binOpModifierTerms.map(t => t.label).concat(aggregateOpModifierTerms.map(t => t.label)).concat(atModifierTerms.map(t => t.label));
 // Produce a regex matching elements : (elt1|elt2|...)
 const vectorMatchingRegex = `(${vectorMatching.reduce((prev, curr) => `${prev}|${curr}`)})`;
 
 // PromQL Operators
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/)
-const operators = [
-	'+', '-', '*', '/', '%', '^',
-	'==', '!=', '>', '<', '>=', '<=',
-	'and', 'or', 'unless',
-];
-
-// PromQL offset modifier
-// (https://prometheus.io/docs/prometheus/latest/querying/basics/#offset-modifier)
-const offsetModifier = [
-	'offset',
-];
+const operators = binOpTerms.map(t => t.label)
 
 // Merging all the keywords in one list
-const keywords = aggregations.concat(functions).concat(trigonometricFunctions).concat(aggregationsOverTime).concat(vectorMatching).concat(offsetModifier);
+const keywords = aggregateOpTerms.map(t => t.label)
+	.concat(functionIdentifierTerms.map(t => t.label))
+	.concat(binOpModifierTerms.map(t => t.label))
+	.concat(atModifierTerms.map(t => t.label))
+	.concat(aggregateOpModifierTerms.map(t => t.label));
 
 // noinspection JSUnusedGlobalSymbols
 export const language = {
