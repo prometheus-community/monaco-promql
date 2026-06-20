@@ -26,8 +26,8 @@
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.61.1",
-    "@typescript-eslint/parser": "^4.18.0",
-    "eslint": "^7.22.0",
+    "@typescript-eslint/parser": "^8.61.1",
+    "eslint": "^8.57.0",
     "jsdom": "^29.1.1",
     "mocha": "^11.7.6",
     "monaco-editor": "*",
