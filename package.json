@@ -24,6 +24,9 @@
     "monaco-editor",
     "prometheus"
   ],
+  "dependencies": {
+    "@prometheus-io/codemirror-promql": "0.311.3"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.61.1",
     "@typescript-eslint/parser": "^8.61.1",
