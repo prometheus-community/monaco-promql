@@ -94,11 +94,13 @@ jobs:
           path: lib
 
       - name: Prepare package metadata
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           cp README.md lib/README.md
           cp package.json lib/package.json
           cd lib
-          npm version --no-git-tag-version "${GITHUB_REF_NAME}"
+          npm version --no-git-tag-version "${RELEASE_TAG}"
 
       - name: Publish
         # Use GitHub's "pre-release" checkbox to decide the dist-tag:
