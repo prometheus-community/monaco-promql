@@ -4,7 +4,7 @@
   "description": "Bundle of promql language for the Monaco Editor.",
   "scripts": {
     "build": "mrmdir ./lib && tsc -p ./src/tsconfig.json",
-    "lint": "eslint src/ --ext .ts",
+    "lint": "eslint src/",
     "watch": "tsc -p ./src --watch",
     "test": "mocha"
   },
