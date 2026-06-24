@@ -21,13 +21,13 @@
 // SOFTWARE.
 
 'use strict';
-import { languages } from "monaco-editor";
-import IRichLanguageConfiguration = languages.LanguageConfiguration;
-import ILanguage = languages.IMonarchLanguage;
-import ProviderResult = languages.ProviderResult;
-import CompletionList = languages.CompletionList;
-import CompletionItemProvider = languages.CompletionItemProvider;
-import CompletionItem = languages.CompletionItem;
+import { languages as monacoLanguages, type languages } from "monaco-editor";
+type IRichLanguageConfiguration = languages.LanguageConfiguration;
+type ILanguage = languages.IMonarchLanguage;
+type ProviderResult<T> = languages.ProviderResult<T>;
+type CompletionList = languages.CompletionList;
+type CompletionItemProvider = languages.CompletionItemProvider;
+type CompletionItem = languages.CompletionItem;
 
 import {
 	aggregateOpModifierTerms,
@@ -195,13 +195,12 @@ export const completionItemProvider: CompletionItemProvider = {
 		const suggestions = keywords.map(value => {
 			return {
 				label: value,
-				kind: languages.CompletionItemKind.Keyword,
+				kind: monacoLanguages.CompletionItemKind.Keyword,
 				insertText: value,
-				insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet
+				insertTextRules: monacoLanguages.CompletionItemInsertTextRule.InsertAsSnippet
 			} as CompletionItem
 		});
 
 		return {suggestions} as ProviderResult<CompletionList>;
 	}
 };
-
